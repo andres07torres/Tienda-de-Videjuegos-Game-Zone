@@ -1,0 +1,152 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Nosotros</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_colores.css' %}">
+    <style>
+        .empresa-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            margin: 20px;
+            padding-bottom: 20px;
+            border-bottom: none;
+            flex-wrap: nowrap;
+            margin-left: 120px;
+        }
+
+        .empresa-info {
+            display: block;
+            text-align: left;
+            padding-right: 10px;
+            width: 30%;
+        }
+
+        .nombre-empresa, .ruc-empresa, .direccion-empresa, .fundacion-empresa {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            text-transform: uppercase;
+        }
+
+        .nombre-empresa span, .ruc-empresa span, .direccion-empresa span, .fundacion-empresa span {
+            width: 120px;
+            display: inline-block;
+        }
+
+        .empresa-imagen {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .imagen-circular {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .imagen-placeholder {
+            width: 200px;
+            height: 200px;
+            border: 2px solid black;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+
+        .empresa-mision-vision {
+            flex-basis: 30%;
+            text-align: center;
+            font-size: 1.2em;
+            text-transform: uppercase;
+        }
+
+        .mision, .vision {
+            margin-top: 20px;
+        }
+
+        .btn-secondary {
+            margin-bottom: 20px;
+        }
+
+        .mensaje {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="titulo-sitio text-center">
+        <h1>TIENDA DE VIDEOJUEGOS</h1>
+        <img src="{% static 'images/logo_tienda.png' %}" alt="Logo Empresa" width="150">
+    </div>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="">Nosotros</a></li>
+            <li class="nav-item"><a class="nav-link" href="/clientes/">Clientes</a></li>
+            <li class="nav-item"><a class="nav-link" href="/productos/">Productos</a></li>
+            <li class="nav-item"><a class="nav-link" href="/trabajadores/">Trabajadores</a></li>
+            <li class="nav-item"><a class="nav-link" href="/proveedores/">Proveedores</a></li>
+            <li class="nav-item"><a class="nav-link" href="/sucursales/">Sucursales</a></li>
+        </ul>
+    </nav>
+</div>
+
+<div class="mensaje text-center">
+    {% if empresa %}
+        {% for e in empresa %}
+        <div class="empresa-container">
+            <div class="empresa-info">
+                <p class="nombre-empresa"><span>Nombre:</span> {{ e.nombre }}</p>
+                <p class="ruc-empresa"><span>RUC:</span> {{ e.ruc }}</p>
+                <p class="direccion-empresa"><span>Dirección:</span> {{ e.direccion }}</p>
+                <div class="empresa-imagen">
+                    {% if e.imagen %}
+                        <img src="{{ e.imagen.url }}" alt="Imagen de la empresa" class="imagen-circular">
+                    {% else %}
+                        <div class="imagen-placeholder">IMAGEN EMPRESA</div>
+                    {% endif %}
+                    <p class="fundacion-empresa"><span>Año de Fundación:</span> {{ e.year_fundacion }}</p>
+                </div>
+            </div>
+
+            <div class="empresa-mision-vision">
+                <a href="{% url 'actualizar-info' e.id %}" class="btn btn-primary">EDITAR INFORMACIÓN</a>
+
+                <div class="mision">
+                    <h3>MISIÓN</h3>
+                    <p>{{ e.mision }}</p>
+                </div>
+
+                <div class="vision">
+                    <h3>VISIÓN</h3>
+                    <p>{{ e.vision }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <p style="margin-top: 100px;">NO SE HA INGRESADO INFORMACIÓN DE LA EMPRESA!!</p>
+        <a href="/agregar-info/" class="btn btn-primary" style="position: relative; right: -10px;">
+            AGREGAR INFORMACIÓN
+        </a>
+    {% endif %}
+</div>        
+</body>
+</html>

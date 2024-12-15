@@ -1,0 +1,89 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página Sucursales</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_colores.css' %}">
+    <style>
+        .card {
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+        .img-sucursal {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="titulo-sitio">
+            <h1>TIENDA DE VIDEOJUEGOS</h1>
+            <img src="{% static 'images/logo_tienda.png' %}" alt="Logo Empresa" width="150">
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/empresa/">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link" href="/clientes/">Clientes</a></li>
+                <li class="nav-item"><a class="nav-link" href="/productos/">Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="/trabajadores/">Trabajadores</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proveedores/">Proveedores</a></li>
+                <li class="nav-item"><a class="nav-link" href="/sucursales/">Sucursales</a></li>
+            </ul>
+        </nav>
+    <div class="container">
+        <h2 class="text-center" style="font-size: 28px; font-weight: normal;">NUESTRAS SUCURSALES</h2>
+        <div class="text-right mb-3">
+            <a href="{% url 'agregar_sucursal' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> AGREGAR SUCURSAL
+            </a>
+        </div>
+        
+    <!-- Tarjetas de sucursales -->
+    <div class="row justify-content-center">
+        {% for sucursal in sucursales %}
+        <div class="col-md-5 mb-4 d-flex justify-content-center">
+            <div class="card" style="width: 100%;">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-10">
+                            <p><strong>Dirección:</strong> {{ sucursal.direccion }}</p>
+                            <p><strong>Ciudad:</strong> {{ sucursal.ciudad }}</p>
+                            <p><strong>Teléfono:</strong> {{ sucursal.telefono }}</p>
+                        </div>
+                        <div class="col-2 d-flex justify-content-end align-items-start">
+                            <a href="{% url 'actualizar_sucursal' sucursal.id %}" class="btn btn-sm btn-warning mr-2">
+                                <img src="{% static 'images/edit.png' %}" alt="Editar" style="width: 20px;">
+                            </a>
+                            <form action="{% url 'eliminar_sucursal' sucursal.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-danger">
+                                    <img src="{% static 'images/delete.png' %}" alt="Eliminar" style="width: 20px;">
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <img src="{{ sucursal.imagen.url }}" class="img-fluid img-sucursal" alt="Imagen de la sucursal">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <p class="text-center">No hay sucursales disponibles.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>

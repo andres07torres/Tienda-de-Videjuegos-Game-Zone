@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actualizar Trabajador</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+        <link rel="stylesheet" href="{% static 'css/styles_colores.css' %}">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="titulo-sitio">
+            <h1>TIENDA DE VIDEOJUEGOS</h1>
+            <img src="{% static 'images/logo_tienda.png' %}" alt="Logo Empresa" width="150">
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/empresa/">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link" href="/clientes/">Clientes</a></li>
+                <li class="nav-item"><a class="nav-link" href="/productos/">Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="/trabajadores/">Trabajadores</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proveedores/">Proveedores</a></li>
+                <li class="nav-item"><a class="nav-link" href="/sucursales/">Sucursales</a></li>
+            </ul>
+        </nav>
+
+        <!-- Formulario para actualizar trabajador -->
+        <div class="container form-container">
+            <h2 class="text-center" style="font-size: 28px; font-weight: normal;">ACTUALIZAR TRABAJADOR</h2>
+            <form method="POST" enctype="multipart/form-data" action="{% url 'actualizar_trabajador' trabajador.id %}" class="mx-auto" style="max-width: 600px;">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre" maxlength="50" value="{{ form.nombre.value }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" class="form-control" id="apellido" name="apellido" maxlength="50" value="{{ form.apellido.value }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="correo">Correo:</label>
+                    <input type="email" class="form-control" id="correo" name="correo" value="{{ form.correo.value }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tipo_trabajador">Tipo Trabajador:</label>
+                    <select class="form-control" id="tipo_trabajador" name="tipo_trabajador" required>
+                        <option value="tiempo_completo" {% if form.tipo_trabajador.value == "tiempo_completo" %}selected{% endif %}>Tiempo Completo</option>
+                        <option value="medio_tiempo" {% if form.tipo_trabajador.value == "medio_tiempo" %}selected{% endif %}>Medio Tiempo</option>
+                        <option value="fin_semana" {% if form.tipo_trabajador.value == "fin_semana" %}selected{% endif %}>Fin de Semana</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cedula">Cédula:</label>
+                    <input type="text" class="form-control" id="cedula" name="cedula" maxlength="10" value="{{ form.cedula.value }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="codigo_empleado">Código Empleado:</label>
+                    <input type="text" class="form-control" id="codigo_empleado" name="codigo_empleado" maxlength="10" value="{{ form.codigo_empleado.value }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="imagen">Imagen:</label>
+                    <input type="file" class="form-control-file" id="imagen" name="imagen">
+                    {% if form.imagen and form.imagen.url %}
+                        <img src="{{ form.imagen.url }}" alt="Imagen del trabajador" class="img-fluid mt-2" style="max-width: 150px;">
+                    {% endif %}
+                </div>
+                
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Actualizar Trabajador</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

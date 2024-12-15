@@ -1,0 +1,31 @@
+/* Archivo styles.css */
+body {
+    background-color:#410000;
+    color: #FFF;
+}
+
+.navbar {
+    background-color: #8B1038 !important;
+}
+
+.navbar a {
+    color: #FFF !important;
+}
+
+.navbar a:hover {
+    color: #FFF;
+}
+
+button {
+    background-color: #54040E;
+    color: white;
+}
+
+button:hover {
+    background-color: #410000;
+}
+
+.footer {
+    background-color: #54040E;
+    color: #FFF;
+}

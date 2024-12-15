@@ -1,0 +1,105 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuestro Personal</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styles_colores.css' %}">
+    <style>
+        .card {
+            background-color: #f8f9fa;
+            color: #212529;
+        }
+
+        .img-fluid {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .card img {
+            max-height: 150px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .move-right {
+            margin-left: 45px;
+        }
+
+        body { 
+            overflow-x: hidden; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="titulo-sitio">
+            <h1>TIENDA DE VIDEOJUEGOS</h1>
+            <img src="{% static 'images/logo_tienda.png' %}" alt="Logo Empresa" width="150">
+        </div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <ul class="navbar-nav">
+                <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="/empresa/">Nosotros</a></li>
+                <li class="nav-item"><a class="nav-link" href="/clientes/">Clientes</a></li>
+                <li class="nav-item"><a class="nav-link" href="/productos/">Productos</a></li>
+                <li class="nav-item"><a class="nav-link" href="/trabajadores/">Trabajadores</a></li>
+                <li class="nav-item"><a class="nav-link" href="/proveedores/">Proveedores</a></li>
+                <li class="nav-item"><a class="nav-link" href="/sucursales/">Sucursales</a></li>
+            </ul>
+        </nav>
+
+        <div class="container">
+            <h2 class="text-center" style="font-size: 28px; font-weight: normal;">NUESTRO PERSONAL</h2>
+        
+            <div class="d-flex justify-content-end mb-3">
+                <a href="{% url 'agregar_trabajador' %}" class="btn btn-primary">
+                    AGREGAR TRABAJADOR
+                </a>
+            </div>
+        </div>
+        <div class="row justify-content-center move-right">
+            {% for trabajador in trabajadores %}
+            <div class="col-md-5 mb-4">
+                <div class="card" style="max-width: 650px;">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="{{ trabajador.imagen.url }}" class="img-fluid" alt="Imagen del trabajador">
+                            </div>
+                            <div class="col-md-8 d-flex align-items-start justify-content-between flex-wrap">
+                                <div style="flex-grow: 1;">
+                                    <h5 style="word-wrap: break-word;">{{ trabajador.nombre }} {{ trabajador.apellido }}</h5>
+                                    <p>Correo: {{ trabajador.correo }}</p>
+                                    <p>Tipo de Trabajador: {{ trabajador.get_tipo_trabajador_display }}</p>
+                                    <p>Código de Empleado: {{ trabajador.codigo_empleado }}</p>
+                                </div>
+                                <div class="d-flex align-items-center">
+                                    <a href="{% url 'actualizar_trabajador' trabajador.id %}" class="btn btn-sm btn-warning mr-2">
+                                        <img src="{% static 'images/edit.png' %}" alt="Editar" style="width: 24px;">
+                                    </a>
+                                    <form action="{% url 'eliminar_trabajador' trabajador.id %}" method="POST" style="display:inline;">
+                                        {% csrf_token %}
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <img src="{% static 'images/delete.png' %}" alt="Eliminar" style="width: 24px;">
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No hay trabajadores disponibles.</p>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>
